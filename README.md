@@ -91,6 +91,29 @@
 <br/>
 <br/>
 
+- RFC 모델을 통해 변수 중요도를 파악한 결과 S4변수가 가장 중요한 것으로 나타났습니다.
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/960333a2-a910-47d4-b152-bef6d821b9ff)
+
+<br/>
+<br/>
+
+- 각 변수의 제곱과 변수끼리의 곱으로 새로운 변수를 생성해 보았습니다.
+- S4변수의 제곱과 S1과 S2의 곱 변수가 가장 중요한 것으로 나타났습니다.
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/fa00bff4-71b0-45ee-be22-17cd35f7c2ad)
+
+<br/>
+<br/>
+
+
+
+
+
+
+<br/>
+
+
 ### 4) IsolationForest
 
 
