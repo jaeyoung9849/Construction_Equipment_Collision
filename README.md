@@ -70,8 +70,8 @@
 
 ### 2) RandomForestClassifier 모델
 - Supervised 모델로 RandomForestClassifier(RFC) 모델을 사용했습니다.
-- RFC 기본 모델을 구축하고 테스트 데이터로 성능을 측정한 결과 Recall이 62%가 나왔습니다.
-- 하지만 학습용 데이터에 과적합(100%)되어 있어 모델의 하이퍼 파리미터를 튜닝할 필요가 있습니다.
+- RFC 기본 모델을 구축하고 테스트 데이터로 성능을 측정한 결과 **Recall이 62%** 가 나왔습니다.
+- 하지만 **학습용 데이터에 과적합(100%)** 되어 있어 모델의 하이퍼 파리미터를 튜닝할 필요가 있습니다.
 
 <br/>
 
@@ -80,9 +80,9 @@
 <br/>
 <br/>
 
-- RFC 모델의 하이퍼 파라미터를 튜닝(n_estimators=400, max_depth=8)했습니다.
-- RFC 기본 모델보다 튜닝된 모델의 학습 데이터와 테스트 데이터의 성능의 격차(66% - 46% = 20%)가 줄어들었습니다.
-- 튜닝된 모델을 구축하고 테스트 데이터로 성능을 측정한 결과 Recall이 46%가 나왔습니다.
+- **GridSearch**를 이용하여 RFC 모델의 **하이퍼 파라미터를 튜닝**했습니다.
+- RFC 기본 모델보다 **튜닝된 모델의 학습 데이터와 테스트 데이터의 성능의 격차(66% - 46% = 20%)가 줄어들었습니다.**
+- 튜닝된 모델을 구축하고 테스트 데이터로 성능을 측정한 결과 **Recall이 46%** 가 나왔습니다.
 
 <br/>
 
@@ -91,29 +91,82 @@
 <br/>
 <br/>
 
-- RFC 모델을 통해 변수 중요도를 파악한 결과 S4변수가 가장 중요한 것으로 나타났습니다.
+- RFC 모델을 통해 **변수 중요도를 파악한 결과 S4변수가 가장 중요**한 것으로 나타났습니다.
 
 ![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/960333a2-a910-47d4-b152-bef6d821b9ff)
 
 <br/>
 <br/>
 
-- 각 변수의 제곱과 변수끼리의 곱으로 새로운 변수를 생성해 보았습니다.
-- S4변수의 제곱과 S1과 S2의 곱 변수가 가장 중요한 것으로 나타났습니다.
+- **각 변수의 제곱과 변수끼리의 곱으로 파생 변수**를 생성했습니다.
+- **S4변수의 제곱**과 **S1과 S2의 곱 변수**가 가장 중요한 것으로 나타났습니다.
+- 추후에 중요한 것으로 나타난 파생변수를 가지고 모델을 재 학습시킬 수 있습니다.
 
 ![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/fa00bff4-71b0-45ee-be22-17cd35f7c2ad)
 
 <br/>
 <br/>
+<br/>
+
+### 3) IsolationForest 모델
+- Unsupervised 모델로 IsolationForest 모델을 사용했습니다.
+- max_samples를 100, contamination을 0.06으로 설정했습니다.
+- **Unsupervised 모델인데도 불구하고 Recall이 54%** 로 나타났습니다.
+
+<br/>
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/110557a8-f81e-4f3f-af66-45aeefd1371f)
 
 
+<br/>
+<br/>
 
+--------------------------
 
+## :four_leaf_clover: 전처리
+- **M(질량)과 V(속도)를 곱해서 충돌에너지(M*V)** 를 만들었습니다.
+
+<br/>
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/659e251c-a029-4bc4-b312-8dd8afc4c13c)
+
+<br/>
+
+- 이상(abnormal)을 정의하기 위해 **충돌에너지(M*V)의 분포**를 확인했습니다.
+
+<br/>
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/4d658c84-4237-4464-b995-7ebcf20327a9)
+
+<br/>
+
+- **충돌에너지(M*V)의 평균에서 2표준편차 이상 차이**나는 데이터를 이상치로 정의했습니다.
+- **약 6%의 데이터가 이상치**인 것으로 나타났습니다.
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/370f12ff-2c27-4ead-99dd-7f0ba3c021bc)
 
 
 <br/>
 
+- **센서별(S1 ~ S4)로 정상데이터와 이상데이터의 분포**를 확인했습니다.
+- **S1 ~ S4 모두 이상데이터에서 더 큰 분산**을 보였습니다.
 
-### 4) IsolationForest
+<br/>
+
+![image](https://github.com/jaeyoung9849/Construction_Equipment_Collision/assets/56102116/46452488-10ab-4641-87fa-0238c7ab9196)
+
+<br/>
+<br/>
+
+------------------------------
+
+## :four_leaf_clover: 한계점
+
+- 이상 데이터를 정의하는 과정에서 **주관적인 판단**이 들어갔습니다.
+- 실제 업무에 적용할 때는 **유관부서, 현업 엔지니어 등** 의 의견을 반영하여 좀 더 **객관적인 기준** 마련이 필요합니다.
+
+
+<br/>
+<br/>
 
 
